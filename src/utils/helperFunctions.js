@@ -1,11 +1,5 @@
-const { htmlArray, index } = require("./htmlTemplates");
+const { htmlArray } = require("./htmlTemplates");
 const Product = require('../models/Product')
-
-const generateIndex = (req, res) => {
-    const [head, opMain, cloMainHtml] = htmlArray
-    const indexHtml = [head, opMain, index, cloMainHtml].join('')
-    res.status(200).send(indexHtml)
-}
 
 function generateHtml(content, req, adminView) {
     const [head, opMain, cloMainHtml] = htmlArray
@@ -153,4 +147,4 @@ function printSingleProduct(product, productId, adminView) {
         </div>`
 }
 
-module.exports = { generateHtml, generateIndex, populateEditForm, printAllProducts, printSingleProduct }
+module.exports = { generateHtml, populateEditForm, printAllProducts, printSingleProduct }
