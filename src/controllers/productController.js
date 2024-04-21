@@ -1,6 +1,6 @@
 const Product = require('../models/Product.js')
-const { generateHtml, populateEditForm, printAllProducts, printSingleProduct } = require('../utils/helperFunctions.js')
-const { newProductForm, notFound } = require('../utils/htmlTemplates.js')
+const { generateHtml, populateEditForm } = require('../utils/helperFunctions.js')
+const { newProductForm } = require('../utils/htmlTemplates.js')
 
 const ProductController = {
     redirect(req, res) { res.redirect('/products') },
@@ -54,14 +54,9 @@ const ProductController = {
     },
 
     async getProductById(req, res) {
-        const adminView = req.originalUrl.includes('admin')
         const productId = req.params.productId
-
         try {
             const product = await Product.findById(productId);
-            const productHtml = printSingleProduct(product, productId, adminView)
-            const html = generateHtml(productHtml, req, adminView)
-            const notFoundHtml = generateHtml(notFound, req, adminView)
 
             !product
                 ? res.status(404).json({ message: 'Product not found' })
