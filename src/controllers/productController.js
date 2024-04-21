@@ -1,6 +1,6 @@
-const Product = require('../models/Product')
-const { generateHtml, populateEditForm, printAllProducts, printSingleProduct } = require('../utils/helperFunctions')
-const { newProductForm, notFound } = require('../utils/htmlTemplates')
+const Product = require('../models/Product.js')
+const { generateHtml, populateEditForm, printAllProducts, printSingleProduct } = require('../utils/helperFunctions.js')
+const { newProductForm, notFound } = require('../utils/htmlTemplates.js')
 
 const ProductController = {
     redirect(req, res) {
