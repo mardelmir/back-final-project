@@ -21,15 +21,6 @@ const htmlArray = [`
 </html>
 `]
 
-const index = `
-<h1>INICIO</h1>
-    <p class="question">¿Dónde te gustaría ir?</p>
-    <div class="option-container">
-        <a class="option" href="/shop/products">Tienda</a>
-        <a class="option" href="/api/products">API</a>
-        <a class="option" href="/api/api-docs">Documentación API</a>
-    </div>`
-
 const newProductForm = `
 <h1>Crear producto</h1>
     <div class="newForm-container">
@@ -138,4 +129,4 @@ const notLoggedIn = `
         </div>
     </div>`
 
-module.exports = { htmlArray, index, newProductForm, registerForm, loginForm, notFound, unauthorizedUser, notLoggedIn }
+module.exports = { htmlArray, newProductForm, registerForm, loginForm, notFound, unauthorizedUser, notLoggedIn }
