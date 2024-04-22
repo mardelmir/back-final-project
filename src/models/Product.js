@@ -11,13 +11,20 @@ const ProductSchema = new mongoose.Schema({
         required: true
     },
     category: {
-        type: String,
-        enum: ['Camisetas', 'Pantalones', 'Zapatos', 'Accesorios'],
-        required: true
+        gender: {
+            type: String,
+            enum: ['Man', 'Woman'],
+            required: true
+        },
+        use: {
+            type: String,
+            enum: ['Performance', 'Lifestyle'],
+            required: true
+        }
     },
     size: {
         type: String,
-        enum: ['XS', 'S', 'M', 'L', 'XL', 'Unitalla'],
+        enum: ['35', '36', '37', '38', '39', '40', '41', '42', '43', '44'],
         required: true
     },
     price: {
