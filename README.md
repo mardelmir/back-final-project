@@ -1,5 +1,8 @@
-# Backend Final: Tienda de calzado
-Backend para web desarrollada en Node.js utilizando Express y Mongoose para crear una tienda de calzado con catálogo de productos y usuarios. Todos los productos se guardan en una base de datos de MongoDB.
+***Probando trabajar con ramas 2***
+blablablablabalbalbal
+
+# Documentación: Tienda de ropa
+Aplicación web desarrollada en Node.js utilizando Express y Mongoose para crear una tienda de ropa con un catálogo de productos y un admin para el administrador. Los productos incluidos en el catálogo se guardan en una base de datos de mongo en Atlas.
 
 ## Índice
 
