@@ -11,6 +11,7 @@ package-lock.json
 
 # Environment variables
 .env
+/src/config/firebaseConfig.js
 
 # Editor
 .vscode/
