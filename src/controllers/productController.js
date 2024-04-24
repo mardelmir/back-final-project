@@ -1,26 +1,6 @@
 const Product = require('../models/Product.js')
-const { generateHtml, populateEditForm } = require('../utils/helperFunctions.js')
-const { newProductForm } = require('../utils/htmlTemplates.js')
 
 const ProductController = {
-    redirect(req, res) { res.redirect('/products') },
-
-    getNewProductForm(req, res) {
-        const adminView = req.originalUrl.includes('admin')
-        const apiView = req.originalUrl.includes('api')
-        try {
-            const html = generateHtml(newProductForm, req, adminView)
-            apiView === false
-                ? res.status(200).send(html)
-                : res.status(200).json({ message: 'New Product Form successfully retrieved', html: html })
-
-        } catch (error) {
-            console.log(error);
-            apiView === false
-                ? res.status(500).send('Error: Could not get New Product Form')
-                : res.status(500).json({ message: 'Error: Could not get New Product Form' })
-        }
-    },
 
     async createProduct(req, res) {
         try {
@@ -66,23 +46,6 @@ const ProductController = {
         catch (error) {
             console.log(error);
             res.status(500).json({ message: 'Error: Could not get specified product' })
-        }
-    },
-
-    async getEditProductForm(req, res) {
-        const adminView = req.originalUrl.includes('admin')
-        const apiView = req.originalUrl.includes('api')
-        try {
-            const html = generateHtml(await populateEditForm(req.params.productId), req, adminView)
-            apiView === false
-                ? res.status(200).send(html)
-                : res.status(200).json({ message: 'Edit Product Form successfully retrieved', html: html })
-
-        } catch (error) {
-            console.log(error);
-            apiView === false
-                ? res.status(500).send('Error: Could not get Edit Product Form')
-                : res.status(500).json({ message: 'Error: Could not get Edit Product Form' })
         }
     },
 
