@@ -37,11 +37,11 @@ const authController = {
         catch (error) {
             console.log(error)
             if (error.code == 'auth/weak-password') {
-                res.send({ error: 'Contraseña insegura, genera una nueva contraseña' })
+                res.json({ error: 'Contraseña insegura, genera una nueva contraseña' })
             } else if (error.code == 'auth/email-already-in-use') {
-                res.send({ error: 'Email ya registrado' })
+                res.json({ error: 'Email ya registrado' })
             } else {
-                res.send({ error: error.message })
+                res.json({ error: error.message })
             }
         }
     },
@@ -67,11 +67,11 @@ const authController = {
         catch (error) {
             console.log(error)
             if (error.code == 'auth/wrong-password') {
-                res.send({ error: 'Contraseña icorrecta, inténtalo de nuevo' })
+                res.json({ error: 'Contraseña icorrecta, inténtalo de nuevo' })
             } else if (error.code == 'auth/user-not-found') {
-                res.send({ error: 'Usuario no registrado' })
+                res.json({ error: 'Usuario no registrado' })
             } else {
-                res.send({ error: error.message })
+                res.json({ error: error.message })
             }
         }
     },
