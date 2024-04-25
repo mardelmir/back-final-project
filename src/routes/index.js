@@ -5,7 +5,7 @@ const productRoutes = require('./productRoutes')
 const adminRoutes = require('./adminRoutes')
 // const checkAuthState = require('../middlewares/authMiddleware')
 
-router.use('/api/v1', productRoutes)
+router.use('/', productRoutes)
 router.use('/', authRoutes)
 router.use('/', adminRoutes)
 

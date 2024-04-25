@@ -7,7 +7,7 @@ const docs = require('./docs/index')
 const cors = require('cors')
 
 const dbConnection = require('./config/db')
-const productRoutes = require('./routes/index')
+const indexRoutes = require('./routes/index')
 
 require('dotenv').config()
 dbConnection()
@@ -24,7 +24,7 @@ app.use(session({
 app.use(express.static('public'))
 app.use(methodOverride('_method'))
 
-app.use('/', productRoutes)
+app.use('/api/v1', indexRoutes)
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(docs))
 
 app.listen(process.env.PORT, () => console.log(`Server listening on port ${process.env.PORT}`))
