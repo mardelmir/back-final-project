@@ -1,6 +1,6 @@
 const firebaseApp = require('../config/firebase')
 const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } = require('firebase/auth')
-const { getFirestore, collection, doc, setDoc, addDoc, getDoc } = require('firebase/firestore')
+const { getFirestore, collection, doc, setDoc, getDoc, Timestamp } = require('firebase/firestore')
 
 const auth = getAuth(firebaseApp)
 const fireDb = getFirestore(firebaseApp)
@@ -21,7 +21,13 @@ const authController = {
             const uid = userCredential.user.uid
             const userRole = role ? 'admin' : 'user'
             const userRef = collection(fireDb, 'user')
-            await setDoc(doc(userRef, uid), { uid, email, role: userRole })
+            await setDoc(doc(userRef, uid), {
+                uid,
+                registrationDate: Timestamp.fromDate(new Date()),
+                role: userRole,
+                email,
+                orders: []
+            })
 
             // Se redirige usuario al endpoint correspondiente según sus credenciales
             userRole === 'admin'
