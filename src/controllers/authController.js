@@ -1,21 +1,29 @@
 const firebaseApp = require('../config/firebase')
 const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } = require('firebase/auth')
-const auth = getAuth(firebaseApp)
+const { getFirestore, collection, doc, setDoc, addDoc, getDoc } = require('firebase/firestore')
 
+const auth = getAuth(firebaseApp)
+const fireDb = getFirestore(firebaseApp)
 const baseEndPoint = 'http://localhost:4321'
 
 const authController = {
     async createAccount(req, res) {
         const { email, password, role } = req.body
         try {
+            // Se crea un nuevo usuario y se inicia sesión
             const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-            const userRole = role ? 'admin' : 'user'
-
-            // await User.create({ uid: userCredential.user.uid, role: userRole })
-
             const loginCredential = await signInWithEmailAndPassword(auth, email, password)
+
+            // Se genera un token para session como medida adicional
             req.session.token = await loginCredential.user.getIdToken()
 
+            // Se añade al usuario en una base de datos de firestore
+            const uid = userCredential.user.uid
+            const userRole = role ? 'admin' : 'user'
+            const userRef = collection(fireDb, 'user')
+            await setDoc(doc(userRef, uid), { uid, role: userRole })
+
+            // Se redirige al usuario al endpoint correspondiente según sus credenciales
             userRole == 'admin'
                 ? res.status(201).redirect(`${baseEndPoint}/admin`)
                 : res.status(201).redirect(`${baseEndPoint}/products`)
@@ -35,6 +43,7 @@ const authController = {
     async login(req, res) {
         const { email, password } = req.body
         try {
+            // Se inicia sesión y se identifica qué tipo de usuario es (estándar o admin)
             const userCredential = await signInWithEmailAndPassword(auth, email, password)
             // const user = await User.find({ uid: userCredential.user.uid })
             req.session.uid = userCredential.user.uid
