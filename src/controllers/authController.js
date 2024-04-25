@@ -21,10 +21,10 @@ const authController = {
             const uid = userCredential.user.uid
             const userRole = role ? 'admin' : 'user'
             const userRef = collection(fireDb, 'user')
-            await setDoc(doc(userRef, uid), { uid, role: userRole })
+            await setDoc(doc(userRef, uid), { uid, email, role: userRole })
 
-            // Se redirige al usuario al endpoint correspondiente según sus credenciales
-            userRole == 'admin'
+            // Se redirige usuario al endpoint correspondiente según sus credenciales
+            userRole === 'admin'
                 ? res.status(201).redirect(`${baseEndPoint}/admin`)
                 : res.status(201).redirect(`${baseEndPoint}/products`)
         }
@@ -45,11 +45,18 @@ const authController = {
         try {
             // Se inicia sesión y se identifica qué tipo de usuario es (estándar o admin)
             const userCredential = await signInWithEmailAndPassword(auth, email, password)
-            // const user = await User.find({ uid: userCredential.user.uid })
-            req.session.uid = userCredential.user.uid
-            // req.session.role = user[0].role
+            const uid = userCredential.user.uid
+            const userRef = doc(fireDb, 'user', uid)
+            const user = (await getDoc(userRef)).data()
 
-            // user[0].role == 'admin' ? res.status(201).redirect('/shop/admin') : res.status(201).redirect('/shop/products')
+            // Se genera session como capa adicional de seguridad
+            req.session.uid = userCredential.user.uid
+            req.session.role = user.role
+
+            // Se redirige usuario al endpoint correspondiente según sus credenciales
+            user.role === 'admin'
+                ? res.status(201).redirect(`${baseEndPoint}/admin`)
+                : res.status(201).redirect(`${baseEndPoint}/products`)
         }
         catch (error) {
             console.log(error)
