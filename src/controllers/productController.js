@@ -1,7 +1,7 @@
 const Product = require('../models/Product.js')
 
 const ProductController = {
-    redirect(req, res) { res.redirect('/products') },
+    redirect(req, res) { res.redirect('/api/v1/products') },
     
     async createProduct(req, res) {
         try {

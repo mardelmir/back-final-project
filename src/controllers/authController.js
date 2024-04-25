@@ -2,16 +2,15 @@ const firebaseApp = require('../config/firebase')
 const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } = require('firebase/auth')
 const auth = getAuth(firebaseApp)
 
-const baseEndPoint = 'http://localhost:8080'
+const baseEndPoint = 'http://localhost:4321'
 
 const authController = {
     async createAccount(req, res) {
         const { email, password, role } = req.body
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-            console.log(userCredential)
             const userRole = role ? 'admin' : 'user'
-         
+
             // await User.create({ uid: userCredential.user.uid, role: userRole })
 
             const loginCredential = await signInWithEmailAndPassword(auth, email, password)
