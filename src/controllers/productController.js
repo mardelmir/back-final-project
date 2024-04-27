@@ -2,11 +2,11 @@ const Product = require('../models/Product.js')
 
 const ProductController = {
     redirect(req, res) { res.redirect('/api/v1/products') },
-    
+
     async createProduct(req, res) {
         try {
             const product = await Product.create({ ...req.body })
-            res.status(201).json({ message: 'Product successfully created', product })
+            res.status(201).json({ message: 'Product successfully created', result: product })
 
         } catch (error) {
             console.log(error);
@@ -26,7 +26,7 @@ const ProductController = {
                 ? products = await Product.find({ category: req.query.category })
                 : products = await Product.find({})
 
-            res.status(200).json({ message: `${products.length} Products successfully retrieved`, products })
+            res.status(200).json({ message: `${products.length} Products successfully retrieved`, result: products })
         }
         catch (error) {
             console.log(error);
@@ -41,7 +41,7 @@ const ProductController = {
 
             !product
                 ? res.status(404).json({ message: 'Product not found' })
-                : res.status(200).json({ message: 'Product successfully retrieved', product })
+                : res.status(200).json({ message: 'Product successfully retrieved', result: product })
 
         }
         catch (error) {
@@ -65,7 +65,7 @@ const ProductController = {
 
             !storedProduct
                 ? res.status(404).json({ message: 'Product not found' })
-                : res.status(200).json({ message: 'Product successfully updated', updatedProduct })
+                : res.status(200).json({ message: 'Product successfully updated', result: updatedProduct })
         }
         catch (error) {
             console.log(error);
@@ -78,7 +78,7 @@ const ProductController = {
             const deletedProduct = await Product.findByIdAndDelete(req.params.productId);
             !deletedProduct
                 ? res.status(404).json({ message: 'Product not found' })
-                : res.status(200).json({ message: 'Product successfully deleted', deletedProduct })
+                : res.status(200).json({ message: 'Product successfully deleted', result: deletedProduct })
         }
         catch (error) {
             console.log(error);
