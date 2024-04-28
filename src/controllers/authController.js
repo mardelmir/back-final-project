@@ -4,7 +4,6 @@ const { getFirestore, collection, doc, setDoc, getDoc, Timestamp } = require('fi
 
 const auth = getAuth(firebaseApp)
 const fireDb = getFirestore(firebaseApp)
-const baseEndPoint = 'http://localhost:4321'
 
 const authController = {
     async createAccount(req, res) {
@@ -29,10 +28,11 @@ const authController = {
                 orders: []
             })
 
+            res.status(201).json({ uid, token: req.session.token, role: userRole })
             // Se redirige usuario al endpoint correspondiente según sus credenciales
-            userRole === 'admin'
-                ? res.status(201).redirect(`${baseEndPoint}/admin`)
-                : res.status(201).redirect(`${baseEndPoint}/products`)
+            // userRole === 'admin'
+            //     ? res.status(201).redirect(`${baseEndPoint}/admin`)
+            //     : res.status(201).redirect(`${baseEndPoint}/products`)
         }
         catch (error) {
             console.log(error)
@@ -52,17 +52,21 @@ const authController = {
             // Se inicia sesión y se identifica qué tipo de usuario es (estándar o admin)
             const userCredential = await signInWithEmailAndPassword(auth, email, password)
             const uid = userCredential.user.uid
+            const token = await userCredential.user.getIdToken()
             const userRef = doc(fireDb, 'user', uid)
             const user = (await getDoc(userRef)).data()
 
             // Se genera session como capa adicional de seguridad
-            req.session.uid = userCredential.user.uid
+            req.session.uid = uid
+            req.session.token = token
             req.session.role = user.role
 
+            res.status(200).json({ uid, token, role: user.role })
+
             // Se redirige usuario al endpoint correspondiente según sus credenciales
-            user.role === 'admin'
-                ? res.status(201).redirect(`${baseEndPoint}/admin`)
-                : res.status(201).redirect(`${baseEndPoint}/products`)
+            // user.role === 'admin'
+            //     ? res.status(200).redirect(`${baseEndPoint}/admin`)
+            //     : res.status(200).redirect(`${baseEndPoint}/products`)
         }
         catch (error) {
             console.log(error)
@@ -79,7 +83,7 @@ const authController = {
     async logout(req, res) {
         await signOut(auth)
         req.session.destroy()
-        res.redirect(`${baseEndPoint}/products`)
+        res.status(200).json({ message: 'Successful logout' })
     }
 }
 
