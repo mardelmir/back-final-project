@@ -1,8 +1,6 @@
 const Product = require('../models/Product.js')
 
 const ProductController = {
-    redirect(req, res) { res.redirect('/api/v1/products') },
-
     async createProduct(req, res) {
         try {
             const product = await Product.create({ ...req.body })
@@ -12,11 +10,6 @@ const ProductController = {
             console.log(error);
             res.status(500).json({ message: 'Error: Could not create product' })
         }
-    },
-
-    filterCategory(req, res) {
-        const viewType = req.originalUrl.includes('admin') === true ? 'admin' : 'products'
-        res.redirect(`/${viewType}/?category=${encodeURIComponent(req.body.categoryBtn)}`)
     },
 
     async getProducts(req, res) {
