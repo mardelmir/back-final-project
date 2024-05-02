@@ -9,11 +9,11 @@ const authController = {
     async createAccount(req, res) {
         const { email, password, role } = req.body
         try {
-            // Se crea un nuevo usuario y se inicia sesión
+            // Create new user and log in
             const userCredential = await createUserWithEmailAndPassword(auth, email, password)
             const loginCredential = await signInWithEmailAndPassword(auth, email, password)
 
-            // Se añade al usuario en una base de datos de firestore
+            // Add user to firestore database
             const uid = userCredential.user.uid
             const userRole = role ? 'admin' : 'user'
             const userRef = collection(fireDb, 'user')
@@ -25,7 +25,7 @@ const authController = {
                 orders: []
             })
 
-            // Se genera session como medida adicional
+            // Generate session as an added security measure
             req.session.uid = uid
             req.session.token = await loginCredential.user.getIdToken()
             req.session.role = userRole
@@ -47,13 +47,13 @@ const authController = {
     async login(req, res) {
         const { email, password } = req.body
         try {
-            // Se inicia sesión y se identifica qué tipo de usuario es (estándar o admin)
+            // Log in and user identification as standard or admin type
             const userCredential = await signInWithEmailAndPassword(auth, email, password)
             const uid = userCredential.user.uid
             const userRef = doc(fireDb, 'user', uid)
             const user = (await getDoc(userRef)).data()
 
-            // Se genera session como capa adicional de seguridad
+            // Generate session as an added security measure
             req.session.uid = uid
             req.session.token = await userCredential.user.getIdToken()
             req.session.role = user.role

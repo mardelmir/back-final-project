@@ -27,20 +27,17 @@ const ProductSchema = new mongoose.Schema({
         of: Number,
         validate: {
             validator: function (value) {
-                // Validar que cada clave en el Map sea una talla permitida
+                // Validate that each key is an allowed size
                 const allowedSizes = ['35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49'];
                 for (let key of value.keys()) {
-                    if (!allowedSizes.includes(key)) {
-                        return false;
-                    }
+                    if (!allowedSizes.includes(key)) { return false }
                 }
                 return true;
             },
-            message: props => `Invalid shoe size keys: ${[...props.value.keys()]}. Allowed sizes are 35 to 49.`
+            message: props => `Invalid shoe size key: ${[...props.value.keys()]}. Allowed sizes are 35 to 49.`
         },
         required: true
     },
-
     price: {
         type: Number,
         required: true

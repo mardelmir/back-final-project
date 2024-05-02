@@ -2,8 +2,21 @@ const Product = require('../models/Product.js')
 
 const ProductController = {
     async createProduct(req, res) {
+        console.log(req.body)
+        const { name, description, img, gender, use, size, quantity, price } = req.body
         try {
-            const product = await Product.create({ ...req.body })
+            
+            const product = await Product.create({
+                name,
+                description,
+                img,
+                category: {
+                    gender,
+                    use
+                },
+                size: size,
+                price
+            })
             res.status(201).json({ message: 'Product successfully created', result: product })
 
         } catch (error) {
@@ -14,11 +27,7 @@ const ProductController = {
 
     async getProducts(req, res) {
         try {
-            let products = ''
-            req.query.category !== undefined
-                ? products = await Product.find({ category: req.query.category })
-                : products = await Product.find({})
-
+            const products = await Product.find({})
             res.status(200).json({ message: `${products.length} Products successfully retrieved`, result: products })
         }
         catch (error) {
@@ -44,16 +53,22 @@ const ProductController = {
     },
 
     async updateProduct(req, res) {
+        const { name, description, img, gender, use, size, quantity, price } = req.body
         try {
             const storedProduct = await Product.findById(req.params.productId)
             const updatedProduct = await Product.findByIdAndUpdate(req.params.productId,
                 {
-                    name: req.body.name || storedProduct.name,
-                    description: req.body.description || storedProduct.description,
-                    img: req.body.img || storedProduct.img,
-                    category: req.body.category || storedProduct.category,
-                    size: req.body.size || storedProduct.size,
-                    price: req.body.price || storedProduct.price
+                    name: name || storedProduct.name,
+                    description: description || storedProduct.description,
+                    img: img || storedProduct.img,
+                    category: {
+                        gender: gender || storedProduct.category.gender,
+                        use: use || storedProduct.category.use
+                    },
+                    size: {
+                        [size]: quantity || storedProduct.size
+                    },
+                    price: price || storedProduct.price
                 }, { new: true })
 
             !storedProduct
