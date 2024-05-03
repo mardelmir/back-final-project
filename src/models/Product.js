@@ -8,7 +8,7 @@ const ProductSchema = new mongoose.Schema({
     description: String,
     img: {
         type: String,
-        required: true
+        // required: true
     },
     category: {
         gender: {

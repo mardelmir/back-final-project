@@ -2,21 +2,9 @@ const Product = require('../models/Product.js')
 
 const ProductController = {
     async createProduct(req, res) {
-        console.log(req.body)
-        const { name, description, img, gender, use, size, quantity, price } = req.body
         try {
-            
-            const product = await Product.create({
-                name,
-                description,
-                img,
-                category: {
-                    gender,
-                    use
-                },
-                size: size,
-                price
-            })
+            const product = await Product.create({ ...req.body })
+            console.log(product)
             res.status(201).json({ message: 'Product successfully created', result: product })
 
         } catch (error) {
