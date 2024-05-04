@@ -41,7 +41,7 @@ const ProductController = {
     },
 
     async updateProduct(req, res) {
-        const { name, description, img, gender, use, size, quantity, price } = req.body
+        const { name, description, img, category, size, price } = req.body
         try {
             const storedProduct = await Product.findById(req.params.productId)
             const updatedProduct = await Product.findByIdAndUpdate(req.params.productId,
@@ -49,13 +49,8 @@ const ProductController = {
                     name: name || storedProduct.name,
                     description: description || storedProduct.description,
                     img: img || storedProduct.img,
-                    category: {
-                        gender: gender || storedProduct.category.gender,
-                        use: use || storedProduct.category.use
-                    },
-                    size: {
-                        [size]: quantity || storedProduct.size
-                    },
+                    category: category || storedProduct.category,
+                    size: size || storedProduct.size,
                     price: price || storedProduct.price
                 }, { new: true })
 
