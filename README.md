@@ -149,12 +149,6 @@ Todas las funciones devuelven la respuesta en HTML o JSON dependiendo de si en l
 - `login`: realiza el incio de sesión de un usuario utilizando Firebase Authentication y express-session y redirige a la ruta correspondiente según el perfil del usuario.
 - `logout`: cierra la sesión del usuario actual en Firebase y express-session.
 
-### Funciones auxiliares
-
-- `generateHtml`: genera el HTML que se devuelve en las respuestas al servidor (incluye la generación del navBar).
-- `generateIndex`: genera el HTML de la ruta raíz `/`. Inlcuye enlaces para acceder a la tienda (HTML), a la API (JSON) o a la documentación de la API.
-- `populateEditForm`: pone como placeholder en el formulario de edición de un producto la información actualmente almacenada de ese producto.
-- `printAllProducts` y `printSingleProduct`: genera el HTML de los productos almacenados en la base de datos e incluye un enlace para acceder a la vista detallada del producto (printAllProducts) o para volver (y para editar y borrar en el caso del administrador) a la lista de todos los productos.
 
 ## Endpoints
 
