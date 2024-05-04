@@ -49,7 +49,10 @@ const ProductController = {
                     name: name || storedProduct.name,
                     description: description || storedProduct.description,
                     img: img || storedProduct.img,
-                    category: category || storedProduct.category,
+                    category: {
+                        gender: category.gender || storedProduct.category.gender,
+                        use: category.use || storedProduct.category.use
+                    },
                     size: size || storedProduct.size,
                     price: price || storedProduct.price
                 }, { new: true })
