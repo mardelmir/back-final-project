@@ -2,7 +2,6 @@
 Aplicación web desarrollada en Node.js utilizando Express y Mongoose para crear una tienda de ropa con un catálogo de productos y un admin para el administrador. Los productos incluidos en el catálogo se guardan en una base de datos de mongo en Atlas.
 
 ## Índice
-
   - [Estructura de archivos](#estructura-de-archivos)
   - [Descripción de los archivos](#descripción-de-los-archivos)
     - [Carpeta src](#carpeta-src) 

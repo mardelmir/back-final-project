@@ -1,5 +1,5 @@
 const { initializeApp } = require('firebase/app');
-//const firebaseConfig = require('./firebaseConfig.js')
+// const firebaseConfig = require('./firebaseConfig.js')
 require('dotenv').config()
 
 const firebaseConfig = {
