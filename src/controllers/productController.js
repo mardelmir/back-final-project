@@ -15,7 +15,13 @@ const ProductController = {
 
     async getProducts(req, res) {
         try {
-            const products = await Product.find({})
+            console.log(req.query.search)
+            let products = ''
+            req.query.search !== undefined
+                ? products = await Product.find({ name: req.query.search })
+                : products = await Product.find({})
+
+            // const products = await Product.find({})
             res.status(200).json({ message: `${products.length} Products successfully retrieved`, result: products })
         }
         catch (error) {
