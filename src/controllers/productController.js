@@ -39,7 +39,6 @@ const ProductController = {
         const productId = req.params.productId
         try {
             const product = await Product.findById(productId);
-
             !product
                 ? res.status(404).json({ message: 'Product not found' })
                 : res.status(200).json({ message: 'Product successfully retrieved', result: product })
