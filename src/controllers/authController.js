@@ -9,11 +9,8 @@ const authController = {
     async createAccount(req, res) {
         const { email, password, role } = req.body
         try {
-            // Create new user and log in
+            // Create new user and add user to firestore database
             const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-            const loginCredential = await signInWithEmailAndPassword(auth, email, password)
-
-            // Add user to firestore database
             const uid = userCredential.user.uid
             const userRole = role ? 'admin' : 'user'
             const userRef = collection(fireDb, 'user')
@@ -24,13 +21,23 @@ const authController = {
                 email,
                 orders: []
             })
+            
+            // Log in user and recover user info
+            const loginCredential = await signInWithEmailAndPassword(auth, email, password)
+            const loginRef = doc(fireDb, 'user', uid)
+            const loginUser = (await getDoc(loginRef)).data()
 
             // Generate session as an added security measure
             req.session.uid = uid
             req.session.token = await loginCredential.user.getIdToken()
             req.session.role = userRole
 
-            res.status(201).json({ uid, token: req.session.token, role: userRole })
+            res.status(201).json({ 
+                uid, 
+                token: req.session.token, 
+                role: userRole,
+                orders: loginUser.orders
+             })
         }
         catch (error) {
             console.log(error)
@@ -58,7 +65,12 @@ const authController = {
             req.session.token = await userCredential.user.getIdToken()
             req.session.role = user.role
 
-            res.status(200).json({ uid, token: req.session.token, role: user.role })
+            res.status(200).json({ 
+                uid, 
+                token: req.session.token, 
+                role: user.role,
+                orders: user.orders
+             })
         }
         catch (error) {
             console.log(error)
