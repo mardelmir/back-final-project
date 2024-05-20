@@ -4,7 +4,6 @@ const ProductController = {
     async createProduct(req, res) {
         try {
             const product = await Product.create({ ...req.body })
-            console.log(product)
             res.status(201).json({ message: 'Product successfully created', result: product })
 
         } catch (error) {
@@ -25,7 +24,7 @@ const ProductController = {
                 const regex = new RegExp(escapedSearch, 'i');
                 products = await Product.find({ name: { $regex: regex } })
             }
-            
+
             res.status(200).json({ message: `${products.length} Products successfully retrieved`, result: products })
         }
         catch (error) {
