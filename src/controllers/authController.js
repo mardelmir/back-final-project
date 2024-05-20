@@ -1,9 +1,6 @@
-const firebaseApp = require('../config/firebase')
-const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } = require('firebase/auth')
-const { getFirestore, collection, doc, setDoc, getDoc, Timestamp } = require('firebase/firestore')
-
-const auth = getAuth(firebaseApp)
-const fireDb = getFirestore(firebaseApp)
+const { auth, fireDb } = require('../config/firebase')
+const { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } = require('firebase/auth')
+const { collection, doc, setDoc, getDoc, Timestamp } = require('firebase/firestore')
 
 const authController = {
     async createAccount(req, res) {
@@ -21,7 +18,7 @@ const authController = {
                 email,
                 orders: []
             })
-            
+
             // Log in user and recover user info
             const loginCredential = await signInWithEmailAndPassword(auth, email, password)
             const loginRef = doc(fireDb, 'user', uid)
@@ -32,12 +29,12 @@ const authController = {
             req.session.token = await loginCredential.user.getIdToken()
             req.session.role = userRole
 
-            res.status(201).json({ 
-                uid, 
-                token: req.session.token, 
+            res.status(201).json({
+                uid,
+                token: req.session.token,
                 role: userRole,
                 orders: loginUser.orders
-             })
+            })
         }
         catch (error) {
             console.log(error)
@@ -65,12 +62,12 @@ const authController = {
             req.session.token = await userCredential.user.getIdToken()
             req.session.role = user.role
 
-            res.status(200).json({ 
-                uid, 
-                token: req.session.token, 
+            res.status(200).json({
+                uid,
+                token: req.session.token,
                 role: user.role,
                 orders: user.orders
-             })
+            })
         }
         catch (error) {
             console.log(error)

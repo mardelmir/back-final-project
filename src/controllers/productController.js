@@ -1,4 +1,3 @@
-const { refEqual } = require('firebase/firestore')
 const Product = require('../models/Product.js')
 
 const ProductController = {
